@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous IT Service Desk (AITSD) | ITIL v4 Multi-Agent Support</title>
+    <meta name="description" content="AI-Powered Multi-Agent Autonomous IT Service Desk and ITIL v4 Incident Management System">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-badge">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">AITSD</span>
+            </div>
+            <div class="header-titles">
+                <h1>Autonomous IT Service Desk</h1>
+                <span class="header-subtitle">ITIL v4 Multi-Agent Incident & Service Management</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span class="status-text">Multi-Agent Engine Online</span>
+            </div>
+            <div class="framework-tag">ITIL v4 Compliant</div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="dashboard-container">
+        <!-- Left Column: Ingestion & Controls -->
+        <section class="panel ingestion-panel">
+            <div class="panel-header">
+                <h2>📥 Ingest IT Ticket / Alert</h2>
+                <span class="badge badge-neutral">Input Queue</span>
+            </div>
+
+            <!-- Quick Scenario Presets -->
+            <div class="scenarios-container">
+                <span class="scenarios-label">⚡ Quick Enterprise Scenarios:</span>
+                <div class="scenario-chips" id="scenarioChips">
+                    <button class="chip-btn chip-p1" data-scenario="p1">🚨 P1 Domain Controller Outage</button>
+                    <button class="chip-btn chip-sec" data-scenario="ransomware">🛡️ Ransomware Alert (LockBit)</button>
+                    <button class="chip-btn chip-p2" data-scenario="bsod">💻 Windows BSOD (0x000000ef)</button>
+                    <button class="chip-btn chip-p4" data-scenario="vpn">🌐 GlobalProtect VPN Drop</button>
+                    <button class="chip-btn chip-req" data-scenario="provisioning">📋 DevOps Laptop Provisioning</button>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="ticketForm" class="ticket-form">
+                <label for="ticketContent" class="input-label">Ticket Content / Error Description:</label>
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="ticketContent" 
+                        name="ticketContent" 
+                        rows="7" 
+                        placeholder="Paste employee support request, system crash logs, or monitoring alert here..." 
+                        required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="clearBtn" class="btn btn-secondary">Clear</button>
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        <span class="btn-text">🚀 Run Multi-Agent Triage</span>
+                        <span class="btn-spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- System Architecture Card -->
+            <div class="arch-card">
+                <h3>🏛️ Active Multi-Agent Pipeline</h3>
+                <div class="arch-flow">
+                    <div class="arch-step">
+                        <span class="step-num">1</span>
+                        <div class="step-desc">
+                            <strong>Triage Agent</strong>
+                            <small>Incident vs Request • Domain • Impact/Urgency</small>
+                        </div>
+                    </div>
+                    <div class="arch-step">
+                        <span class="step-num">2</span>
+                        <div class="step-desc">
+                            <strong>SLA Priority Agent</strong>
+                            <small>ITIL Matrix • P1–P4 • SLA Response/Resolution</small>
+                        </div>
+                    </div>
+                    <div class="arch-step">
+                        <span class="step-num">3</span>
+                        <div class="step-desc">
+                            <strong>Support Tier Dispatcher</strong>
+                            <small>Tier 1/2/3 • SecOps • On-Call Emergency Page</small>
+                        </div>
+                    </div>
+                    <div class="arch-step">
+                        <span class="step-num">4</span>
+                        <div class="step-desc">
+                            <strong>Runbook Remediation Agent</strong>
+                            <small>KB SOP Matching • Diagnostic CLI • User Guide</small>
+                        </div>
+                    </div>
+                    <div class="arch-step">
+                        <span class="step-num">5</span>
+                        <div class="step-desc">
+                            <strong>Major Incident & SecOps Agent</strong>
+                            <small>P1 MIM Bridge • EDR Host Network Isolation</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Live Pipeline & Incident Dossier -->
+        <section class="panel results-panel">
+            <div class="panel-header">
+                <h2>⚡ Incident Dossier & Remediation</h2>
+                <div id="ticketMetaBadge" class="ticket-meta-badge hidden">
+                    <span id="ticketIdDisplay">INC-XXXXXX</span>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <div class="empty-state-icon">📡</div>
+                <h3>Ready to Triage IT Tickets</h3>
+                <p>Select an enterprise scenario on the left or paste a custom IT issue to watch the multi-agent system analyze, prioritize, route, and remediate in real time.</p>
+            </div>
+
+            <!-- Results Container -->
+            <div id="resultsContainer" class="results-container hidden">
+                <!-- Critical Alerts (MIM / SecOps) -->
+                <div id="alertBanner" class="alert-banner hidden">
+                    <div class="alert-icon" id="alertIcon">🚨</div>
+                    <div class="alert-content">
+                        <h4 id="alertTitle">CRITICAL ALERT</h4>
+                        <p id="alertMessage">Emergency protocol active.</p>
+                    </div>
+                </div>
+
+                <!-- Incident Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-label">Record Type</span>
+                        <span id="metricRecordType" class="metric-value badge">INCIDENT</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">ITIL Priority</span>
+                        <span id="metricPriority" class="metric-value badge badge-p1">P1_CRITICAL</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Assigned Tier</span>
+                        <span id="metricTier" class="metric-value badge badge-tier">TIER_3_INFRA</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Technical Domain</span>
+                        <span id="metricDomain" class="metric-value">network_vpn</span>
+                    </div>
+                </div>
+
+                <!-- SLA Countdown Card -->
+                <div class="sla-card">
+                    <div class="sla-header">
+                        <span class="sla-title">⏱️ Service Level Agreement (SLA) Targets</span>
+                        <span id="slaPolicyDesc" class="sla-policy">Critical Outage Policy</span>
+                    </div>
+                    <div class="sla-deadlines">
+                        <div class="sla-target-item">
+                            <span class="sla-target-label">Response Target:</span>
+                            <strong id="slaResponseTarget">15 Minutes</strong>
+                            <span class="sla-time" id="slaResponseDeadline">2026-09-21 11:30:00</span>
+                        </div>
+                        <div class="sla-target-item">
+                            <span class="sla-target-label">Resolution Target:</span>
+                            <strong id="slaResolutionTarget">4 Hours</strong>
+                            <span class="sla-time" id="slaResolutionDeadline">2026-09-21 15:15:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extracted Entities & Dispatch Details -->
+                <div class="detail-card">
+                    <div class="detail-row">
+                        <span class="detail-label">Extracted Technical Entities:</span>
+                        <div id="extractedEntities" class="entities-tags">
+                            <span class="entity-tag">0x80070005</span>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Dispatch Rationale:</span>
+                        <p id="dispatchRationale" class="detail-text">Dispatched to Tier 1 based on domain.</p>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">On-Call Escalation:</span>
+                        <span id="onCallPagingStatus" class="badge">No</span>
+                    </div>
+                </div>
+
+                <!-- Technician Runbook Card -->
+                <div class="runbook-card">
+                    <div class="runbook-header">
+                        <div class="runbook-title-wrap">
+                            <span class="runbook-icon">📖</span>
+                            <div>
+                                <h3 id="kbTitle">KB-1001: Active Directory Account Lockout</h3>
+                                <span id="kbId" class="kb-badge">KB-1001</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CLI Command Box -->
+                    <div class="cli-box">
+                        <div class="cli-header">
+                            <span>Diagnostic / Remediation CLI:</span>
+                            <button type="button" id="copyCliBtn" class="copy-btn">
+                                <span class="copy-icon">📋</span> Copy Command
+                            </button>
+                        </div>
+                        <pre class="cli-code"><code id="cliCommand">net user %USERNAME% /domain</code></pre>
+                    </div>
+
+                    <!-- Technician SOP Steps -->
+                    <div class="sop-section">
+                        <h4>Standard Operating Procedure (SOP):</h4>
+                        <ol id="sopStepsList" class="sop-steps">
+                            <li>Verify caller identity.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- End-User Notification Preview -->
+                <div class="user-comm-card">
+                    <div class="user-comm-header">
+                        <span>📧 End-User Communication Preview (Automated Acknowledgment)</span>
+                    </div>
+                    <div class="user-comm-body" id="userResponseBody">
+                        Hello, thank you for contacting IT Support...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Section: Session Ticket Queue -->
+    <section class="queue-section">
+        <div class="queue-header">
+            <h3>📋 Session Ticket Queue (Live History)</h3>
+            <span class="queue-count" id="queueCount">0 Tickets Processed</span>
+        </div>
+        <div class="table-wrapper">
+            <table class="queue-table">
+                <thead>
+                    <tr>
+                        <th>Ticket ID</th>
+                        <th>Type</th>
+                        <th>Domain</th>
+                        <th>Priority</th>
+                        <th>Assigned Tier</th>
+                        <th>Matched Runbook</th>
+                        <th>Escalation</th>
+                        <th>Processed At</th>
+                    </tr>
+                </thead>
+                <tbody id="queueTableBody">
+                    <tr class="empty-row">
+                        <td colspan="8">No tickets processed in this session yet. Submit a ticket above to start.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>

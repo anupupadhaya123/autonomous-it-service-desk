@@ -1,0 +1,81 @@
+model:
+  name: "gpt-4"
+  temperature: 0.2
+  max_tokens: 1000
+
+system:
+  name: "Autonomous IT Service Desk (AITSD)"
+  framework: "ITIL v4"
+  version: "2.0.0"
+
+agents:
+  triage_agent:
+    enabled: true
+    timeout: 30
+    retry_attempts: 3
+    
+  sla_priority_agent:
+    enabled: true
+    timeout: 20
+    retry_attempts: 2
+    
+  it_router_agent:
+    enabled: true
+    timeout: 20
+    retry_attempts: 2
+    
+  remediation_agent:
+    enabled: true
+    timeout: 40
+    retry_attempts: 3
+    
+  incident_escalation_agent:
+    enabled: true
+    timeout: 25
+    retry_attempts: 2
+
+sla_targets:
+  P1_CRITICAL:
+    response_time_minutes: 15
+    resolution_time_hours: 4
+    paging_enabled: true
+  P2_HIGH:
+    response_time_minutes: 60
+    resolution_time_hours: 8
+    paging_enabled: true
+  P3_MEDIUM:
+    response_time_minutes: 240
+    resolution_time_hours: 24
+    paging_enabled: false
+  P4_LOW:
+    response_time_minutes: 480
+    resolution_time_hours: 72
+    paging_enabled: false
+
+tier_mappings:
+  identity_access:
+    primary_tier: "tier_1_service_desk"
+    secondary_tier: "tier_2_desktop_systems"
+  network_vpn:
+    primary_tier: "tier_1_service_desk"
+    secondary_tier: "tier_3_infrastructure"
+  endpoint_hardware:
+    primary_tier: "tier_2_desktop_systems"
+    secondary_tier: "tier_1_service_desk"
+  software_cloud:
+    primary_tier: "tier_1_service_desk"
+    secondary_tier: "tier_3_infrastructure"
+  security_incident:
+    primary_tier: "secops_csirt"
+    secondary_tier: "tier_3_infrastructure"
+  general_it:
+    primary_tier: "tier_1_service_desk"
+    secondary_tier: "tier_2_desktop_systems"
+
+knowledge_base:
+  path: "data/knowledge_base.json"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "it_service_desk.log"

@@ -1,0 +1,121 @@
+[
+  {
+    "id": "KB-1001",
+    "title": "Active Directory / MFA Account Lockout & Self-Service Password Reset",
+    "domain": "identity_access",
+    "tier": "tier_1_service_desk",
+    "keywords": ["password", "locked", "lockout", "mfa", "okta", "duo", "login failed", "expired password", "access denied"],
+    "summary": "Resolution workflow for locked Active Directory accounts and multi-factor authentication (MFA) desynchronization.",
+    "diagnostic_command": "net user %USERNAME% /domain",
+    "troubleshooting_steps": [
+      "1. Verify caller identity using employee ID and manager verification.",
+      "2. Query Active Directory to check lockout status: 'Search-ADAccount -LockedOut'.",
+      "3. Execute 'Unlock-ADAccount -Identity <username>' to clear the lockout flag.",
+      "4. If MFA token is out of sync, trigger an MFA device reset in Okta / Entra ID admin console.",
+      "5. Instruct user to sign in through the self-service password portal to establish new compliant credentials."
+    ],
+    "self_service_instructions": "Please visit https://identity.corp.internal/self-service to verify your identity via SMS or secondary email and reset your domain credentials."
+  },
+  {
+    "id": "KB-1002",
+    "title": "VPN Gateway Tunnel Failure & MTU/DNS Resolution",
+    "domain": "network_vpn",
+    "tier": "tier_1_service_desk",
+    "keywords": ["vpn", "globalprotect", "anyconnect", "tunnel", "gateway not reachable", "disconnected", "remote access"],
+    "summary": "Troubleshooting remote access VPN connection drops, SSL/IPsec tunnel negotiation failures, and local DNS conflicts.",
+    "diagnostic_command": "ipconfig /flushdns && ping -n 4 vpn.corp.internal",
+    "troubleshooting_steps": [
+      "1. Confirm user has an active internet connection outside the VPN.",
+      "2. Flush local DNS resolver cache to clear stale gateway records: 'ipconfig /flushdns'.",
+      "3. In VPN client settings, switch gateway selection from 'Auto' to preferred regional gateway.",
+      "4. Verify client certificate validity in user's Personal Certificate Store (certmgr.msc).",
+      "5. Restart the VPN Agent service via services.msc."
+    ],
+    "self_service_instructions": "Disconnect from Wi-Fi, restart your home router, reconnect to Wi-Fi, right-click the VPN icon in your system tray and select 'Refresh Connection'."
+  },
+  {
+    "id": "KB-1003",
+    "title": "Microsoft Outlook / M365 Authentication Loop & Credential Cache Reset",
+    "domain": "software_cloud",
+    "tier": "tier_1_service_desk",
+    "keywords": ["outlook", "exchange", "password prompt", "m365", "teams", "credential loop", "autodiscover", "auth loop"],
+    "summary": "Resolves continuous password prompting loops in Microsoft Outlook, Teams, and Office 365 desktop apps.",
+    "diagnostic_command": "cmdkey /list | findstr \"MicrosoftOffice\"",
+    "troubleshooting_steps": [
+      "1. Completely exit Outlook, Teams, and all Microsoft 365 applications.",
+      "2. Open Windows Credential Manager -> Windows Credentials.",
+      "3. Locate and delete all entries under 'Generic Credentials' matching 'MicrosoftOffice16_Data*' and 'adal*'.",
+      "4. Clear Modern Authentication token cache at '%localappdata%\\Microsoft\\TokenBroker\\Cache'.",
+      "5. Relaunch Outlook and enter corporate credentials when prompted by Modern Auth dialog."
+    ],
+    "self_service_instructions": "Close Outlook and Teams. Open Control Panel > Credential Manager > Windows Credentials, remove entries with 'MicrosoftOffice', then reopen Outlook."
+  },
+  {
+    "id": "KB-1004",
+    "title": "Windows BSOD / Driver Crash Dump Analysis & System File Repair",
+    "domain": "endpoint_hardware",
+    "tier": "tier_2_desktop_systems",
+    "keywords": ["bsod", "blue screen", "crash", "critical_process_died", "dump", "0x000000ef", "0x80070005", "stop code", "minidump"],
+    "summary": "Investigates Blue Screen of Death (BSOD) stop errors, corrupted system drivers, and kernel dump logs.",
+    "diagnostic_command": "sfc /scannow && DISM /Online /Cleanup-Image /RestoreHealth",
+    "troubleshooting_steps": [
+      "1. Boot system into Windows Recovery Environment (WinRE) or Safe Mode with Networking.",
+      "2. Copy memory dump files from 'C:\\Windows\\Minidump\\' for analysis in WinDbg.",
+      "3. Run System File Checker ('sfc /scannow') and DISM restore health command.",
+      "4. Check Device Manager for recently updated display, network, or storage controllers and roll back driver.",
+      "5. Run Windows Memory Diagnostic ('mdsched.exe') to test for physical RAM faults."
+    ],
+    "self_service_instructions": "Save all open files immediately. If the computer crashes repeatedly, hold the power button for 10 seconds to shut down and contact Tier 2 Desktop Support."
+  },
+  {
+    "id": "KB-1005",
+    "title": "Enterprise Network Latency, DNS Resolution & Gateway Packet Loss",
+    "domain": "network_vpn",
+    "tier": "tier_3_infrastructure",
+    "keywords": ["network", "latency", "dns", "packet loss", "core switch", "router", "gateway", "nxdomain", "datacenter", "vlan"],
+    "summary": "Escalation procedures for enterprise network degradation, DNS lookup timeouts, and core switch interface drops.",
+    "diagnostic_command": "tracert -d 8.8.8.8 && nslookup dc01.corp.internal",
+    "troubleshooting_steps": [
+      "1. Perform bidirectional traceroute between endpoint and enterprise core switch.",
+      "2. Query primary and secondary DNS forwarders to check for zone transfer delays or cache poison.",
+      "3. Inspect core switch interface telemetry for CRC errors, duplex mismatches, or flapping ports.",
+      "4. Verify DHCP pool exhaustion on affected VLAN subnet.",
+      "5. If organization-wide, initiate Major Incident Management (MIM) bridge with Network Operations Center (NOC)."
+    ],
+    "self_service_instructions": "Network engineering is actively investigating high latency on the corporate backbone. No user action is required."
+  },
+  {
+    "id": "KB-1006",
+    "title": "Suspected Phishing, Ransomware & Host Containment Protocol",
+    "domain": "security_incident",
+    "tier": "secops_csirt",
+    "keywords": ["ransomware", "malware", "virus", "phishing", "suspicious link", "compromised", "hacked", "lockbit", "bitcoin ransom", "encrypted files"],
+    "summary": "Emergency containment protocol for malware execution, credential harvesting, or ransomware behavior.",
+    "diagnostic_command": "netsh interface set interface name=\"Wi-Fi\" admin=DISABLED",
+    "troubleshooting_steps": [
+      "1. IMMEDIATELY isolate the affected host from the network (unplug Ethernet cable and disable Wi-Fi).",
+      "2. DO NOT power off or reboot the workstation to preserve volatile memory (RAM) and running processes.",
+      "3. Trigger an EDR host isolation action via CrowdStrike / Defender for Endpoint console.",
+      "4. Reset user's domain credentials and revoke all active OAuth/Azure AD refresh tokens.",
+      "5. Capture memory dump with WinPmem and preserve MFT/event logs for CSIRT forensic timeline."
+    ],
+    "self_service_instructions": "UNPLUG YOUR NETWORK CABLE AND DISCONNECT WI-FI IMMEDIATELY. DO NOT TURN OFF YOUR COMPUTER. A SecOps analyst will contact you directly."
+  },
+  {
+    "id": "KB-1007",
+    "title": "Service Request: Software Provisioning & Role-Based Access (RBAC)",
+    "domain": "software_cloud",
+    "tier": "tier_1_service_desk",
+    "keywords": ["provision", "access request", "new hire", "license", "github", "jira", "aws access", "software install", "admin rights"],
+    "summary": "Fulfillment process for enterprise software licensing, cloud platform access, and developer tool grants.",
+    "diagnostic_command": "dsregcmd /status",
+    "troubleshooting_steps": [
+      "1. Validate that ticket has documented managerial approval in ITSM workflow.",
+      "2. Verify user's department and job code against the RBAC matrix.",
+      "3. Add user account to the corresponding Entra ID / Okta security group.",
+      "4. Deploy software package silently via Microsoft Intune / SCCM company portal.",
+      "5. Notify user once provisioning is complete with getting-started documentation."
+    ],
+    "self_service_instructions": "Your request has been approved. You can install the approved application directly from the Company Portal app on your workstation without local admin rights."
+  }
+]
