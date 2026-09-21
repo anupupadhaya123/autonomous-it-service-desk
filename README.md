@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center">
-  <img src="images/dashboard_preview.jpg" alt="Autonomous IT Service Desk Dashboard" width="100%" />
+  <img src="images/clip.gif" alt="Autonomous IT Service Desk Dashboard Demo" width="100%" />
 </p>
 
 ---
